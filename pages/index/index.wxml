@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="container">
+  <web-view
+  src ="https://timebank.coder4game.com/client/index.html"
+  ></web-view>
+</view>
