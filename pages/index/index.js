@@ -16,6 +16,7 @@ Page({
     })
   },
   onLoad: function () {
+    /*
     wx.login({
       success(res) {
         if (res.code) {
@@ -26,6 +27,7 @@ Page({
         }
       }
     })
+    */
     /*
     if (app.globalData.userInfo) {
       this.setData({

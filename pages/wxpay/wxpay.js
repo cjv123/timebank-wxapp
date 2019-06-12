@@ -17,6 +17,7 @@ Page({
     
     console.log("pay checksession...");
     let self=this;
+    /*
     wx.checkSession({
       success() {
         // session_key 未过期，并且在本生命周期一直有效
@@ -37,12 +38,26 @@ Page({
         })
       }
     })
+    */
+
+    wx.login({
+      success(res) {
+        if (res.code) {
+          console.log("code:" + res.code);
+          app.globalData.code = res.code;
+          self.requestPay(options);
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
     
   },
   
 
   requestPay:function(obj){
     console.log("start wxpay...");
+    console.log("code:"+app.globalData.code);
     let self=this;
     wx.request({
       url: 'https://timebank.coder4game.com/action.do?act=order&method=unifiedOrder', 
@@ -60,7 +75,8 @@ Page({
       },
       method:"POST",
       success(res) {
-        let resObj = res["obj"];
+        console.log(res.data)
+        let resObj = res.data["obj"];
         self.requestWxPayment(resObj);
       }
     })
@@ -73,11 +89,13 @@ Page({
     orderId = Math.floor(orderId);
     //调起微信支付
     console.log(obj);
+
+
     wx.requestPayment({
       //相关支付参数
-      'timeStamp': obj.timestamp,
-      'nonceStr': obj.noncestr,
-      'package': 'prepay_id=' + obj.prepayid,
+      'timeStamp': obj.timestamp.toString(),
+      'nonceStr': obj.nonce_str,
+      'package': 'prepay_id=' + obj.prepay_id,
       'signType': 'MD5',
       'paySign': obj.sign,
       //小程序微信支付成功的回调通知
@@ -96,7 +114,12 @@ Page({
           //小程序主动返回到上一个页面。即从wxpay page到index page。此时index page的webview已经重新加载了url 了
           //微信小程序的page 也有栈的概念navigateBack 相当于页面出栈的操作
           wx.navigateBack();
-      }
+      },
+      'fail':function(res) {
+          console.log("pay fail:"+res);
+          wx.navigateBack();
+       }
+
     });
   },
 

@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+  <text>加载中...</text>
   <web-view
   src ="https://timebank.coder4game.com/client/index.html"
   ></web-view>
