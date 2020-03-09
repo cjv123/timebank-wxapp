@@ -2,6 +2,6 @@
 <view class="container">
   <text>加载中...</text>
   <web-view
-  src ="https://timebank.coder4game.com/client/index.html"
+  src ="https://timebank.coder4game.com/client/index.html?v=0.3"
   ></web-view>
 </view>
